@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran IoT - IRMAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2E7D32;
+            --primary-dark: #1B5E20;
+            --primary-light: #4CAF50;
+            --secondary-color: #1976D2;
+            --accent-color: #FF9800;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --gray-color: #666;
+            --light-gray: #eee;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            padding: 1.2rem 1.5rem;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--gray-color);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            background: linear-gradient(rgba(46, 125, 50, 0.9), rgba(46, 125, 50, 0.8)), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.95;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-icon {
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .module-content {
+            padding: 1.5rem;
+        }
+
+        .module-badge {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--dark-color);
+        }
+
+        .module-progress {
+            height: 6px;
+            background-color: var(--light-gray);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            gap: 10px;
+        }
+
+        .module-nav button {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .module-nav button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .back-to-modules {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 2rem;
+            text-decoration: none;
+        }
+
+        .back-to-modules:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .module-content-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .module-content-container h3 {
+            color: var(--primary-color);
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .module-content-container h4 {
+            color: var(--secondary-color);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .module-content-container p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .module-content-container ul, .module-content-container ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-content-container li {
+            margin-bottom: 0.8rem;
+        }
+
+        .analogy-box {
+            background-color: #E8F5E9;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        .code-comment {
+            color: #888;
+        }
+
+        .quiz-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .quiz-section.active {
+            display: block;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .score-display {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .option {
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            background-color: #f9f9f9;
+            border-color: #ccc;
+        }
+
+        .option.selected {
+            border-color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .option.correct {
+            border-color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .option.incorrect {
+            border-color: #F44336;
+            background-color: #FFEBEE;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background-color: #E8F5E9;
+            border-left: 4px solid var(--primary-color);
+            color: var(--primary-dark);
+        }
+
+        .feedback.incorrect {
+            background-color: #FFEBEE;
+            border-left: 4px solid #F44336;
+            color: #C62828;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .practice-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .practice-image {
+            height: 180px;
+            background: linear-gradient(135deg, #FF9800, #FF5722);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .practice-content {
+            padding: 1.5rem;
+        }
+
+        .components-list {
+            margin-bottom: 1.5rem;
+        }
+
+        .components-list h4 {
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .practice-content h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .practice-content p {
+            margin-bottom: 1.5rem;
+            color: var(--gray-color);
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background-color: white;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .wiring-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: var(--box-shadow);
+            display: none;
+        }
+
+        .wiring-image.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .resource-page {
+            padding: 1rem;
+        }
+
+        .resource-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .resource-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-details h4 {
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .contact-details p {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: all 0.3s;
+        }
+
+        .link-item:hover {
+            background-color: #e9e9e9;
+            transform: translateX(5px);
+        }
+
+        .link-icon {
+            margin-right: 1rem;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .start-button-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .start-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .start-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--light-gray);
+            margin-top: 2rem;
+        }
+
+        .copyright {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .modules-grid, .practice-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .module-nav {
+                flex-direction: column;
+            }
+            
+            .module-nav button {
+                width: 100%;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quiz-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .quiz-navigation button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="irnity-logo.png" alt="IRNITY Logo" onerror="this.style.display='none'; document.querySelector('.default-logo').style.display='flex';">
+                    <div class="default-logo">🕌</div>
+                </div>
+                <div class="logo-text">
+                    <h1>IRNITY</h1>
+                    <p>Ikhlas Resource Network for Innovation, Technology and Youth</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Home Page -->
+        <div id="homePage" class="page-content active">
+            <div class="hero">
+                <h2>Selamat Datang di Platform Pembelajaran IoT IRMAL</h2>
+                <p>Mengembangkan keterampilan teknologi masa depan dengan pendekatan Islami dan praktis</p>
+            </div>
+
+            <div class="module-content-container">
+                <h3>Tujuan Pembelajaran</h3>
+                <p>Platform ini dirancang untuk membantu Remaja Masjid Jami Al-Ikhlas (IRMAL) memahami teknologi Internet of Things (IoT) dengan cara yang mudah, praktis, dan bermanfaat untuk pengembangan masjid dan masyarakat.</p>
+                
+                <h3>Apa yang Akan Dipelajari?</h3>
+                <ul>
+                    <li><strong>Dasar-dasar IoT</strong> - Konsep, komponen, dan cara kerja sistem IoT</li>
+                    <li><strong>Sensor dan Aktuator</strong> - Mengenal berbagai jenis sensor dan aktuator</li>
+                    <li><strong>Mikrokontroler ESP32</strong> - Pemrograman dan aplikasi praktis</li>
+                    <li><strong>Display dan Interface</strong> - Membuat tampilan visual untuk sistem IoT</li>
+                    <li><strong>Konektivitas</strong> - WiFi, Bluetooth, dan komunikasi data</li>
+                    <li><strong>Proyek Praktis</strong> - Membangun sistem nyata untuk masjid</li>
+                </ul>
+                
+                <h3>Manfaat Belajar IoT</h3>
+                <div class="analogy-box">
+                    <h4>💡 Keuntungan yang Didapat:</h4>
+                    <ol>
+                        <li>Meningkatkan kreativitas dan inovasi dalam pengembangan teknologi</li>
+                        <li>Melatih logika pemrograman dan problem solving</li>
+                        <li>Bekal karir masa depan di bidang teknologi dan engineering</li>
+                        <li>Berkontribusi langsung untuk kemajuan masjid dan masyarakat</li>
+                        <li>Mengembangkan pola pikir ilmiah dan sistematis</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-microchip"></i></div>
+                    <h3>8</h3>
+                    <p>Modul Pembelajaran</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-flask"></i></div>
+                    <h3>3</h3>
+                    <p>Proyek Praktik</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>10+</h3>
+                    <p>Remaja Terdaftar</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>100%</h3>
+                    <p>Gratis & Terbuka</p>
+                </div>
+            </div>
+
+            <!-- Tombol Mulai di Beranda -->
+            <div class="start-button-container">
+                <button class="start-button" onclick="startLearning()">
+                    <i class="fas fa-play-circle"></i> Mulai Belajar Sekarang
+                </button>
+            </div>
+        </div>
+
+        <!-- Modules Page -->
+        <div id="modulesPage" class="page-content">
+            <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">Daftar Modul Pembelajaran</h2>
+            <div class="modules-grid" id="modulesList"></div>
+        </div>
+
+        <!-- Module Content Page -->
+        <div id="moduleContentPage" class="page-content"></div>
+
+        <!-- Practice Page -->
+        <div id="practicePage" class="page-content">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary-color);">Proyek Praktik IoT</h2>
+            <div class="practice-grid">
+                <div class="practice-card">
+                    <div class="practice-image">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="practice-content">
+                        <h3>Sistem Penyiraman Tanaman Otomatis</h3>
+                        <p>Sistem otomatis yang menyiram tanaman berdasarkan kelembapan tanah dan jadwal waktu.</p>
+                        <div class="components-list">
+                            <h4>Komponen yang dibutuhkan:</h4>
+                            <ul>
+                                <li>ESP32 Dev Board</li>
+                                <li>Sensor Soil Moisture</li>
+                                <li>Relay 5V</li>
+                                <li>Pompa air mini 5V</li>
+                                <li>RTC DS3231</li>
+                                <li>Tombol tekan</li>
+                            </ul>
+                        </div>
+                        <button class="btn-primary" onclick="openPractice(1)">
+                            <i class="fas fa-play-circle"></i> Mulai Praktik
+                        </button>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-image" style="background: linear-gradient(135deg, #2196F3, #00BCD4);">
+                        <i class="fas fa-hand-sparkles"></i>
+                    </div>
+                    <div class="practice-content">
+                        <h3>Kran Wudhu Otomatis</h3>
+                        <p>Sistem kran wudhu otomatis menggunakan sensor jarak untuk deteksi tangan dan swipe gesture untuk kontrol manual.</p>
+                        <div class="components-list">
+                            <h4>Komponen yang dibutuhkan:</h4>
+                            <ul>
+                                <li>ESP32 Dev Board</li>
+                                <li>2x VL53L0X Sensor Jarak</li>
+                                <li>OLED Display 128x64</li>
+                                <li>Relay 5V</li>
+                                <li>Solenoid Valve</li>
+                                <li>Tombol Factory Reset</li>
+                            </ul>
+                        </div>
+                        <button class="btn-primary" onclick="openPractice(2)">
+                            <i class="fas fa-play-circle"></i> Mulai Praktik
+                        </button>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-image" style="background: linear-gradient(135deg, #FFC107, #FF9800);">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="practice-content">
+                        <h3>Sistem Lampu Otomatis Masjid</h3>
+                        <p>Sistem pengendalian lampu masjid otomatis berdasarkan sensor cahaya dan gerak.</p>
+                        <div class="components-list">
+                            <h4>Komponen yang dibutuhkan:</h4>
+                            <ul>
+                                <li>ESP32</li>
+                                <li>Sensor PIR (gerak)</li>
+                                <li>Sensor LDR (cahaya)</li>
+                                <li>Relay modul 2 channel</li>
+                                <li>Lampu LED 220V</li>
+                            </ul>
+                        </div>
+                        <button class="btn-primary" onclick="openPractice(3)">
+                            <i class="fas fa-play-circle"></i> Segera Hadir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resource Page -->
+        <div id="resourcePage" class="page-content">
+            <div class="resource-page">
+                <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">Sumber Daya & Dukungan</h2>
+                
+                <div class="resource-card">
+                    <h3><i class="fas fa-download"></i> Instalasi Software & Library</h3>
+                    <h4>1. Instalasi Arduino IDE</h4>
+                    <ol>
+                        <li>Download Arduino IDE dari <a href="https://www.arduino.cc/en/software" target="_blank">arduino.cc</a></li>
+                        <li>Instal sesuai sistem operasi (Windows/Mac/Linux)</li>
+                        <li>Buka Arduino IDE dan tambahkan ESP32 board:
+                            <div class="code-block">
+                                File → Preferences → Additional Boards Manager URLs<br>
+                                Tambahkan: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+                            </div>
+                        </li>
+                        <li>Tools → Board → Boards Manager → Cari "ESP32" → Install</li>
+                    </ol>
+                    
+                    <h4>2. Library yang Diperlukan</h4>
+                    <ul>
+                        <li><strong>Adafruit SSD1306</strong> - Untuk OLED display</li>
+                        <li><strong>Adafruit GFX Library</strong> - Graphics library</li>
+                        <li><strong>VL53L0X</strong> - Sensor jarak</li>
+                        <li><strong>RTClib</strong> - Untuk RTC DS3231</li>
+                        <li><strong>WiFi</strong> - Sudah termasuk dalam ESP32</li>
+                        <li><strong>WebServer</strong> - Untuk web dashboard</li>
+                        <li><strong>Dan lainnya</strong> - Yang relevan dengan proyek yang dikerjakan</li>
+
+                    </ul>
+                    <p>Cara instal library: Sketch → Include Library → Manage Libraries → Cari nama library → Install</p>
+                </div>
+                
+                <div class="resource-card">
+                    <h3><i class="fas fa-external-link-alt"></i> Link Pembelajaran Eksternal</h3>
+                    
+                    <a href="https://www.instructables.com/member/ESP32/projects/" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div>
+                            <strong>Instructables - Proyek ESP32</strong>
+                            <p>Koleksi proyek IoT dengan ESP32</p>
+                        </div>
+                    </a>
+                    
+                    <a href="https://randomnerdtutorials.com/projects-esp32/" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div>
+                            <strong>Random Nerd Tutorials</strong>
+                            <p>Tutorial lengkap ESP32 untuk pemula</p>
+                        </div>
+                    </a>
+                    
+                    <a href="https://www.youtube.com/c/GreatScottLab" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fab fa-youtube"></i></div>
+                        <div>
+                            <strong>GreatScott! YouTube Channel</strong>
+                            <p>Video tutorial elektronik dan IoT</p>
+                        </div>
+                    </a>
+                    
+                    <a href="https://github.com/espressif/arduino-esp32" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fab fa-github"></i></div>
+                        <div>
+                            <strong>ESP32 Arduino GitHub</strong>
+                            <p>Repository resmi ESP32 untuk Arduino</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3><i class="fas fa-hands-helping"></i> Dukungan Pembimbing</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Pembimbing: Yudi Danton</h4>
+                            <p>Technical Support Masjid Al-Ikhlas</p>
+                            <button class="whatsapp-btn" onclick="openWhatsApp('6287756787423', 'Bang Yudi')">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Pendamping: Ust. Abroruddin</h4>
+                            <p>Pembina IRMAL & Pendamping Kegiatan</p>
+                            <button class="whatsapp-btn" onclick="openWhatsApp('6287773858086', 'Ust. Abroruddin')">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="analogy-box">
+                        <h4>📞 Etika Menghubungi Pembimbing:</h4>
+                        <ul>
+                            <li>Salam dan perkenalkan diri terlebih dahulu</li>
+                            <li>Sampaikan pertanyaan dengan jelas</li>
+                            <li>Gunakan bahasa yang sopan dan santun</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active" data-page="homePage">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </a>
+        <a href="#" class="nav-item" data-page="modulesPage">
+            <i class="fas fa-book"></i>
+            <span>Modul</span>
+        </a>
+        <a href="#" class="nav-item" data-page="practicePage">
+            <i class="fas fa-flask"></i>
+            <span>Praktik</span>
+        </a>
+        <a href="#" class="nav-item" data-page="resourcePage">
+            <i class="fas fa-life-ring"></i>
+            <span>Sumber Daya</span>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="copyright">
+            © 2025 IRNITY. Hak Cipta Dilindungi.<br>
+            Platform Pembelajaran IoT untuk Remaja Masjid Jami Al-Ikhlas
+        </div>
+    </footer>
+
+    <script>
+        // Data modul 5-8 yang ditambahkan
+        const additionalModules = [
+            {
+                id: 5,
+                title: "Display dalam IoT",
+                icon: "fas fa-tv",
+                description: "Mengenal 'wajah visual' dari sebuah sistem Internet of Things.",
+                content: `
+                    <h3>1. Apa Itu Display dalam IoT?</h3>
+                    <p>Display adalah komponen output visual yang digunakan untuk menampilkan data, pesan, status, atau informasi penting dari sistem IoT.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Analogi:</h4>
+                        <p>Jika sensor = alat untuk membaca lingkungan, mikrokontroler = otak, aktuator = tangan/kaki, maka Display adalah mata dan wajah dari sistem.</p>
+                    </div>
+                    
+                    <h3>2. Jenis-Jenis Display</h3>
+                    
+                    <h4>a. OLED Display</h4>
+                    <p>Display kecil, hemat daya, sederhana, dan paling cocok untuk pemula.</p>
+                    <p><strong>Kelebihan:</strong> Mudah dipasang, hemat listrik, tampilan jernih</p>
+                    
+                    <h4>b. TFT Display</h4>
+                    <p>Display warna dengan tampilan cerah dan mendukung gambar.</p>
+                    <p><strong>Kelebihan:</strong> Full color, bisa menampilkan grafik, cocok untuk mini-dashboard</p>
+                    
+                    <h4>c. TFT Touchscreen</h4>
+                    <p>Display modern dengan kemampuan sentuh seperti layar HP.</p>
+                    <p><strong>Kelebihan:</strong> Bisa membuat UI interaktif, cocok untuk panel kontrol</p>
+                    
+                    <h4>d. LED Matrix</h4>
+                    <p>Display besar untuk informasi publik dan papan skor.</p>
+                    <p><strong>Kelebihan:</strong> Ukuran besar, sangat terang (outdoor), cocok untuk running text</p>
+                `,
+                quiz: [
+                    {
+                        question: "Apa fungsi display dalam sistem IoT?",
+                        options: ["Menampilkan data visual", "Mengukur suhu", "Menyimpan program", "Mengontrol relay"],
+                        correct: 0,
+                        explanation: "Display berfungsi untuk menampilkan data dan informasi dalam bentuk visual."
+                    },
+                    {
+                        question: "Display mana yang paling cocok untuk pemula?",
+                        options: ["OLED Display", "TFT Touchscreen", "LED Matrix P10", "LCD 16x2"],
+                        correct: 0,
+                        explanation: "OLED display paling cocok untuk pemula karena sederhana, hemat daya, dan mudah dipasang."
+                    },
+                    {
+                        question: "Display apa yang cocok untuk papan informasi masjid?",
+                        options: ["LED Matrix P10", "OLED 0.96", "TFT 1.8 inch", "LCD 20x4"],
+                        correct: 0,
+                        explanation: "LED Matrix P10 cocok untuk informasi masjid karena ukuran besar dan terang untuk outdoor."
+                    },
+                    {
+                        question: "Apa kelebihan TFT touchscreen?",
+                        options: ["Bisa membuat UI interaktif", "Lebih murah", "Lebih hemat daya", "Lebih kecil ukurannya"],
+                        correct: 0,
+                        explanation: "TFT touchscreen bisa membuat UI interaktif dengan tombol dan menu sentuh."
+                    },
+                    {
+                        question: "Berapa kabel yang dibutuhkan untuk OLED display I2C?",
+                        options: ["4 kabel (VCC, GND, SDA, SCL)", "8 kabel", "2 kabel (VCC, GND)", "6 kabel"],
+                        correct: 0,
+                        explanation: "OLED display I2C hanya membutuhkan 4 kabel: VCC, GND, SDA, dan SCL."
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Konektivitas dalam IoT",
+                icon: "fas fa-wifi",
+                description: "Mengenal cara perangkat IoT saling terhubung.",
+                content: `
+                    <h3>1. Pengertian Konektivitas IoT</h3>
+                    <p>Konektivitas adalah jalan komunikasi yang digunakan perangkat IoT untuk mengirim atau menerima data.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Analogi:</h4>
+                        <p>Jika sensor dan mikrokontroler ibarat indera dan otak, maka konektivitas adalah mulut dan telinga yang memudahkan alat-alat tersebut "ngobrol".</p>
+                    </div>
+                    
+                    <h3>2. Jenis-Jenis Konektivitas</h3>
+                    
+                    <h4>a. WiFi</h4>
+                    <p>Konektivitas paling umum pada ESP32 dan ESP8266.</p>
+                    <p><strong>Kelebihan:</strong> Cepat, mudah digunakan, cocok untuk dashboard lokal</p>
+                    <p><strong>Kekurangan:</strong> Jarak terbatas, butuh router/hotspot</p>
+                    
+                    <h4>b. Bluetooth / BLE</h4>
+                    <p>Dipakai untuk komunikasi jarak dekat.</p>
+                    <p><strong>Kelebihan:</strong> Tidak perlu WiFi, hemat daya, cepat untuk jarak <10m</p>
+                    <p><strong>Kekurangan:</strong> Tidak cocok untuk IoT online, tidak bisa akses dari jauh</p>
+                    
+                    <h4>c. LoRa / LoRaWAN</h4>
+                    <p>Teknologi jarak jauh berdaya rendah (bisa >5 km).</p>
+                    <p><strong>Kelebihan:</strong> Jangkauan sangat jauh, hemat daya, cocok daerah minim internet</p>
+                    <p><strong>Kekurangan:</strong> Kecepatan rendah, butuh gateway untuk LoRaWAN</p>
+                    
+                    <h4>d. NB-IoT / LTE-M</h4>
+                    <p>Menggunakan jaringan seluler (operator).</p>
+                    <p><strong>Kelebihan:</strong> Tidak butuh WiFi, jangkauan luas, stabil untuk monitoring jarak jauh</p>
+                    <p><strong>Kekurangan:</strong> Butuh kartu SIM, ada biaya bulanan</p>
+                `,
+                quiz: [
+                    {
+                        question: "Apa kelebihan utama WiFi dalam IoT?",
+                        options: ["Mudah digunakan dan cepat", "Jangkauan sangat jauh", "Tidak butuh router", "Gratis selamanya"],
+                        correct: 0,
+                        explanation: "WiFi mudah digunakan, cepat, dan cocok untuk aplikasi IoT lokal."
+                    },
+                    {
+                        question: "Konektivitas apa yang cocok untuk monitoring sawah jarak jauh?",
+                        options: ["LoRa", "WiFi", "Bluetooth", "Infrared"],
+                        correct: 0,
+                        explanation: "LoRa cocok untuk area luas seperti sawah karena jangkauannya mencapai beberapa kilometer."
+                    },
+                    {
+                        question: "Apa kelebihan Bluetooth BLE?",
+                        options: ["Hemat daya", "Jangkauan 10km", "Kecepatan tinggi", "Gratis data"],
+                        correct: 0,
+                        explanation: "Bluetooth Low Energy (BLE) dirancang untuk hemat daya."
+                    },
+                    {
+                        question: "Apa kekurangan NB-IoT?",
+                        options: ["Butuh kartu SIM dan ada biaya", "Jangkauan pendek", "Kecepatan terlalu tinggi", "Tidak aman"],
+                        correct: 0,
+                        explanation: "NB-IoT menggunakan jaringan seluler sehingga membutuhkan kartu SIM dan ada biaya operator."
+                    },
+                    {
+                        question: "Konektivitas apa yang tersedia di ESP32?",
+                        options: ["WiFi dan Bluetooth", "LoRa saja", "NB-IoT saja", "Hanya WiFi"],
+                        correct: 0,
+                        explanation: "ESP32 memiliki WiFi dan Bluetooth built-in."
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Cloud & Penyimpanan Data IoT",
+                icon: "fas fa-cloud",
+                description: "Tempat data terkumpul dan diolah dalam sistem IoT.",
+                content: `
+                    <h3>1. Apa Itu Cloud dalam IoT?</h3>
+                    <p>Cloud adalah ruang penyimpanan online tempat data dari IoT dikirim.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Analogi sederhana:</h4>
+                        <p>Cloud = laci penyimpanan di internet. Sensor → kirim data → disimpan di cloud → HP membaca data dari sana.</p>
+                    </div>
+                    
+                    <h3>2. Fungsi Cloud dalam IoT</h3>
+                    <ul>
+                        <li>Menyimpan data (suhu, tanah, jarak, dll.)</li>
+                        <li>Menampilkan data ke HP atau web</li>
+                        <li>Memberikan perintah balik ke perangkat</li>
+                        <li>Mengatur otomatisasi dari jarak jauh</li>
+                        <li>Backup data jangka panjang</li>
+                    </ul>
+                    
+                    <h3>3. Jenis Cloud untuk Pemula</h3>
+                    
+                    <h4>a. Blynk Cloud</h4>
+                    <p>Paling mudah untuk pemula dan remaja.</p>
+                    <p><strong>Kelebihan:</strong> Gratis untuk pemula, dashboard instan di HP, tidak perlu coding server</p>
+                    
+                    <h4>b. Firebase (Google)</h4>
+                    <p>Cepat dan stabil, mudah integrasi dengan Android.</p>
+                    <p><strong>Kelebihan:</strong> Cepat, stabil, gratis untuk penggunaan kecil</p>
+                    
+                    <h4>c. MQTT Cloud</h4>
+                    <p>Protokol ringan untuk IoT (HiveMQ, Mosquitto, EMQX).</p>
+                    <p><strong>Kelebihan:</strong> Sangat cepat, cocok untuk banyak perangkat, stabil</p>
+                    
+                    <h4>d. AWS IoT, Azure IoT, Google Cloud IoT</h4>
+                    <p>Lebih profesional, cocok skala besar.</p>
+                    <p><strong>Kelebihan:</strong> Otomatis, aman, besar</p>
+                    <p><strong>Kekurangan:</strong> Rumit untuk pemula, berbayar</p>
+                `,
+                quiz: [
+                    {
+                        question: "Apa fungsi utama cloud dalam IoT?",
+                        options: ["Menyimpan dan memproses data", "Memberikan daya pada sensor", "Menggantikan mikrokontroler", "Memperbesar sinyal WiFi"],
+                        correct: 0,
+                        explanation: "Cloud berfungsi sebagai tempat penyimpanan dan pengolahan data dari perangkat IoT."
+                    },
+                    {
+                        question: "Cloud mana yang paling mudah untuk pemula?",
+                        options: ["Blynk Cloud", "AWS IoT", "Google Cloud IoT", "Azure IoT"],
+                        correct: 0,
+                        explanation: "Blynk Cloud paling mudah karena tidak perlu coding server dan dashboard instan di HP."
+                    },
+                    {
+                        question: "Apa kelebihan Firebase?",
+                        options: ["Cepat dan mudah integrasi dengan Android", "Gratis tanpa batas", "Tidak perlu internet", "Otomatis memiliki display"],
+                        correct: 0,
+                        explanation: "Firebase cepat dan mudah diintegrasikan dengan aplikasi Android."
+                    },
+                    {
+                        question: "Apa itu MQTT?",
+                        options: ["Protokol ringan untuk IoT", "Jenis sensor suhu", "Merek mikrokontroler", "Software programming"],
+                        correct: 0,
+                        explanation: "MQTT adalah protokol komunikasi ringan yang populer untuk perangkat IoT."
+                    },
+                    {
+                        question: "Mengapa cloud penting untuk sistem IoT?",
+                        options: ["Akses data dari mana saja", "Menggantikan semua sensor", "Membuat alat lebih murah", "Mempercepat pemrograman"],
+                        correct: 0,
+                        explanation: "Cloud memungkinkan akses data dari mana saja dan kapan saja."
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "Dashboard & UI dalam IoT",
+                icon: "fas fa-tachometer-alt",
+                description: "Tempat data ditampilkan agar mudah dipantau.",
+                content: `
+                    <h3>1. Apa Itu Dashboard IoT?</h3>
+                    <p>Dashboard adalah tampilan antarmuka yang berfungsi menampilkan data IoT dalam bentuk angka, grafik, tombol ON/OFF, indikator, dan status perangkat.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Definisi:</h4>
+                        <p>Dashboard = "layar kontrol pusat" untuk sistem IoT.</p>
+                    </div>
+                    
+                    <h3>2. Jenis Dashboard IoT</h3>
+                    
+                    <h4>a. Dashboard Web Lokal (ESP32 Web Server)</h4>
+                    <p>Tanpa internet, cukup WiFi lokal (AP Mode).</p>
+                    <p><strong>Kelebihan:</strong> Tidak perlu cloud, bisa diakses langsung dari HP</p>
+                    <p><strong>Kekurangan:</strong> Tidak bisa diakses saat jauh dari alat</p>
+                    
+                    <h4>b. Dashboard Aplikasi (Blynk)</h4>
+                    <p>Paling mudah untuk pemula.</p>
+                    <p><strong>Kelebihan:</strong> Drag & drop widget, tombol ON/OFF, grafik, chart</p>
+                    
+                    <h4>c. Dashboard Kustom (HTML/JS, Android Native)</h4>
+                    <p>Membutuhkan skill lebih, tetapi paling fleksibel.</p>
+                    <p><strong>Kelebihan:</strong> Tampilan bisa dibuat sangat modern, bisa tema khusus</p>
+                    
+                    <h3>3. Prinsip UI/UX untuk Remaja</h3>
+                    <ul>
+                        <li>Teks besar dan mudah dibaca</li>
+                        <li>Ikon sederhana (air, cahaya, suhu)</li>
+                        <li>Warna cerah namun tidak ramai</li>
+                        <li>Tombol besar (mudah disentuh)</li>
+                        <li>Responsif (cocok HP/tablet/TV)</li>
+                    </ul>
+                `,
+                quiz: [
+                    {
+                        question: "Apa fungsi dashboard dalam sistem IoT?",
+                        options: ["Menampilkan data dan kontrol perangkat", "Menyimpan program mikrokontroler", "Memberi daya pada sensor", "Memperkuat sinyal WiFi"],
+                        correct: 0,
+                        explanation: "Dashboard berfungsi sebagai antarmuka untuk menampilkan data dan mengontrol perangkat IoT."
+                    },
+                    {
+                        question: "Dashboard mana yang bisa digunakan tanpa internet?",
+                        options: ["Dashboard Web Lokal ESP32", "Blynk Cloud Dashboard", "Firebase Dashboard", "AWS IoT Dashboard"],
+                        correct: 0,
+                        explanation: "Dashboard web lokal ESP32 berjalan di jaringan WiFi lokal tanpa perlu internet."
+                    },
+                    {
+                        question: "Apa kelebihan dashboard Blynk?",
+                        options: ["Drag & drop widget", "Harus coding HTML", "Hanya untuk komputer", "Mahal"],
+                        correct: 0,
+                        explanation: "Blynk menyediakan widget yang bisa drag & drop tanpa coding kompleks."
+                    },
+                    {
+                        question: "Prinsip UI apa yang penting untuk dashboard?",
+                        options: ["Teks besar dan mudah dibaca", "Warna gelap semua", "Banyak animasi", "Tidak ada tombol"],
+                        correct: 0,
+                        explanation: "Teks yang besar dan mudah dibaca penting untuk kemudahan penggunaan."
+                    },
+                    {
+                        question: "Apa kelebihan dashboard kustom?",
+                        options: ["Fleksibel dan bisa tema khusus", "Paling mudah dibuat", "Tidak perlu programming", "Otomatis dibuat oleh ESP32"],
+                        correct: 0,
+                        explanation: "Dashboard kustom fleksibel dan bisa disesuaikan dengan kebutuhan khusus."
+                    }
+                ]
+            }
+        ];
+
+        const modulesData = [
+            {
+                id: 1,
+                title: "Pengenalan Dasar IoT",
+                icon: "fas fa-globe",
+                description: "Memahami konsep dasar Internet of Things, komponen, dan cara kerjanya.",
+                content: `
+                    <h3>1. Apa Itu IoT?</h3>
+                    <p><strong>IoT (Internet of Things)</strong> adalah sebuah sistem yang menghubungkan perangkat (elektronik) ke jaringan (internet, wifi, bluetooth dll), memungkinkan mereka mengumpulkan, mengirim, dan bertukar data secara cerdas.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Definisi sederhana:</h4>
+                        <p>IoT adalah konsep di mana benda-benda fisik bisa terhubung ke internet dan saling berkomunikasi.</p>
+                    </div>
+                    
+                    <h4>Contoh IoT dalam kehidupan:</h4>
+                    <ul>
+                        <li>Lampu otomatis yang dikendalikan dari HP</li>
+                        <li>CCTV online (Sistem keamanan)</li>
+                        <li>Mobil pintar (industri)</li>
+                        <li>Sistem irigasi (pertanian)</li>
+                        <li>Health care monitoring (Rumah sakit)</li>
+                        <li>Sistem Tilang Elektronik (Lalu lintas)</li>
+                    </ul>
+                    
+                    <div class="analogy-box">
+                        <h4>🎯 Analogi:</h4>
+                        <p>Bayangkan semua benda di sekitar kita punya "otak kecil" (mikrokontroler) dan bisa ngobrol lewat internet. Jadinya mereka bisa bekerja lebih cerdas.</p>
+                    </div>
+                    
+                    <h3>2. Komponen Penting dalam IoT</h3>
+                    
+                    <h4>a. Sensor</h4>
+                    <p>Alat untuk <em>merasakan</em> sesuatu.</p>
+                    <ul>
+                        <li><strong>Analoginya:</strong> seperti mata, telinga, dan hidung pada manusia</li>
+                        <li><strong>Contoh:</strong> sensor suhu, sensor cahaya, sensor tanah</li>
+                    </ul>
+                    
+                    <h4>b. Aktuator</h4>
+                    <p>Alat yang <em>bergerak atau menggerakkan sesuatu</em> setelah mendapat perintah.</p>
+                    <ul>
+                        <li><strong>Contoh:</strong> motor pompa, relay, kipas</li>
+                    </ul>
+                    
+                    <h4>c. Mikrokontroler</h4>
+                    <p>Otak kecil yang memproses data sensor dan mengontrol aktuator.</p>
+                    <ul>
+                        <li><strong>Contoh:</strong> ESP32, ESP8266, Arduino</li>
+                        <li><strong>Analogi:</strong> seperti otak manusia yang memutuskan "apa yang harus dilakukan"</li>
+                    </ul>
+                    
+                    <h4>d. Cloud / Server (Awan)</h4>
+                    <p>Tempat penyimpanan data online.</p>
+                    <ul>
+                        <li><strong>Analogi:</strong> laci penyimpanan di internet</li>
+                        <li><strong>Contoh:</strong> Blynk Cloud, Google Firebase</li>
+                    </ul>
+                    
+                    <h3>3. Bagaimana IoT Bekerja?</h3>
+                    <ol>
+                        <li><strong>Sensor membaca kondisi lingkungan</strong><br>(misal: tanah kering, suhu panas, cahaya gelap)</li>
+                        <li><strong>Mikrokontroler menerima data sensor</strong><br>(misal: ESP32 membaca nilai tanah = kering)</li>
+                        <li><strong>Mikrokontroler membuat keputusan</strong><br>(misal: "kalau tanah kering, hidupkan pompa")</li>
+                        <li><strong>Aktuator menjalankan perintah</strong><br>(pompa atau lampu menyala)</li>
+                        <li><strong>Data dikirim ke HP / internet</strong><br>(tampilan di aplikasi Blynk atau web)</li>
+                    </ol>
+                    
+                    <h3>4. Keuntungan Belajar IoT</h3>
+                    <ol>
+                        <li>Meningkatkan kreativitas dan inovasi</li>
+                        <li>Melatih logika dan problem solving</li>
+                        <li>Bekal karir masa depan (teknologi, engineering, IT)</li>
+                        <li>Bermanfaat untuk masjid dan masyarakat</li>
+                        <li>Membiasakan diri berpikir ilmiah dan terstruktur</li>
+                    </ol>
+                `,
+                quiz: [
+                    {
+                        question: "Apa kepanjangan dari IoT?",
+                        options: ["Internet of Things", "Internet of Technology", "Integrated Online Technology", "Internet of Tools"],
+                        correct: 0,
+                        explanation: "IoT adalah singkatan dari Internet of Things, yang berarti Internet untuk Segala Benda."
+                    },
+                    {
+                        question: "Apa fungsi sensor dalam sistem IoT?",
+                        options: ["Merasakan kondisi lingkungan", "Menggerakkan perangkat", "Menyimpan data", "Menampilkan informasi"],
+                        correct: 0,
+                        explanation: "Sensor berfungsi sebagai indera yang membaca kondisi lingkungan seperti suhu, cahaya, atau kelembapan."
+                    },
+                    {
+                        question: "Manakah yang termasuk contoh mikrokontroler?",
+                        options: ["ESP32", "Lampu LED", "Baterai", "Kabel USB"],
+                        correct: 0,
+                        explanation: "ESP32 adalah salah satu mikrokontroler populer yang digunakan dalam proyek IoT."
+                    },
+                    {
+                        question: "Apa fungsi aktuator dalam IoT?",
+                        options: ["Menjalankan perintah fisik", "Membaca data sensor", "Menyimpan program", "Menghubungkan ke internet"],
+                        correct: 0,
+                        explanation: "Aktuator adalah komponen yang melakukan aksi fisik seperti menyalakan pompa atau lampu."
+                    },
+                    {
+                        question: "Apa contoh penerapan IoT di masjid?",
+                        options: ["Kran wudhu otomatis", "Speaker azan", "Karpet shalat", "Mimbar kayu"],
+                        correct: 0,
+                        explanation: "Kran wudhu otomatis adalah penerapan IoT yang dapat menghemat air dan meningkatkan kebersihan."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Sensor dalam IoT",
+                icon: "fas fa-thermometer-half",
+                description: "Mengenal berbagai jenis sensor dan fungsinya dalam sistem IoT.",
+                content: `
+                    <h3>1. Pengertian Sensor</h3>
+                    <p><strong>Sensor</strong> adalah komponen elektronik yang berfungsi <strong>mendeteksi, merasakan, atau mengukur</strong> kondisi fisik di sekitarnya.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Penjelasan sederhana:</h4>
+                        <p>Sensor itu seperti <em>indera</em> pada manusia (mata, telinga, kulit), yang memberi informasi ke otak agar bisa memutuskan sesuatu.</p>
+                    </div>
+                    
+                    <h3>2. Jenis-Jenis Sensor</h3>
+                    
+                    <h4>a. Sensor Kelembapan Tanah (Soil Moisture Sensor)</h4>
+                    <p>Untuk mendeteksi tingkat kelembapan tanah.</p>
+                    <p><strong>Contoh penggunaan:</strong> Sistem penyiram tanaman otomatis</p>
+                    
+                    <h4>b. Sensor Suhu (Temperature Sensor)</h4>
+                    <p>Seperti NTC, DHT11, DHT22, DS18B20.</p>
+                    <p><strong>Contoh penggunaan:</strong> Monitoring suhu ruangan masjid, Kontrol kipas otomatis</p>
+                    
+                    <h4>c. Sensor Cahaya (LDR)</h4>
+                    <p>LDR (Light Dependent Resistor) mendeteksi intensitas cahaya.</p>
+                    <p><strong>Contoh penggunaan:</strong> Lampu otomatis ketika gelap</p>
+                    
+                    <h4>d. Sensor Jarak (Ultrasonic Sensor HC-SR04)</h4>
+                    <p>Mengukur jarak dengan pantulan suara ultrasonik.</p>
+                    <p><strong>Contoh penggunaan:</strong> Parkir otomatis, Deteksi tempat wudhu penuh/kosong</p>
+                    
+                    <h4>e. Sensor Gerak (PIR Motion Sensor)</h4>
+                    <p>Mendeteksi pergerakan manusia.</p>
+                    <p><strong>Contoh penggunaan:</strong> Lampu menyala saat ada orang lewat, Sistem keamanan masjid</p>
+                    
+                    <h3>3. Sensor Analog vs Digital</h3>
+                    
+                    <h4>A. Sensor Analog</h4>
+                    <p>Menghasilkan output berupa tegangan yang berubah-ubah.</p>
+                    <p><strong>Contoh:</strong> soil moisture, LDR, NTC</p>
+                    
+                    <h4>B. Sensor Digital</h4>
+                    <p>Menghasilkan data ON/OFF atau nilai digital tertentu.</p>
+                    <p><strong>Contoh:</strong> PIR, sensor jarak ultrasonic, DHT11</p>
+                `,
+                quiz: [
+                    {
+                        question: "Sensor apa yang digunakan untuk mendeteksi tingkat kelembapan tanah?",
+                        options: ["Soil Moisture Sensor", "Temperature Sensor", "PIR Sensor", "Ultrasonic Sensor"],
+                        correct: 0,
+                        explanation: "Soil Moisture Sensor khusus dirancang untuk mengukur kelembapan tanah."
+                    },
+                    {
+                        question: "Apa fungsi sensor PIR?",
+                        options: ["Mendeteksi gerakan manusia", "Mengukur suhu", "Mengukur jarak", "Mendeteksi cahaya"],
+                        correct: 0,
+                        explanation: "PIR (Passive Infrared) sensor mendeteksi pergerakan manusia berdasarkan perubahan panas."
+                    },
+                    {
+                        question: "Sensor mana yang termasuk sensor analog?",
+                        options: ["LDR", "PIR", "DHT11", "Ultrasonic"],
+                        correct: 0,
+                        explanation: "LDR menghasilkan nilai analog yang berubah sesuai intensitas cahaya."
+                    },
+                    {
+                        question: "Apa perbedaan sensor analog dan digital?",
+                        options: ["Analog: nilai berubah-ubah, Digital: ON/OFF", "Analog: mahal, Digital: murah", "Analog: cepat, Digital: lambat", "Analog: besar, Digital: kecil"],
+                        correct: 0,
+                        explanation: "Sensor analog menghasilkan nilai kontinu, sedangkan digital menghasilkan nilai diskrit (biasanya 0 atau 1)."
+                    },
+                    {
+                        question: "Sensor apa yang cocok untuk lampu otomatis di masjid?",
+                        options: ["LDR", "Soil Moisture", "Temperature", "Gas Sensor"],
+                        correct: 0,
+                        explanation: "LDR dapat mendeteksi cahaya gelap dan menyalakan lampu otomatis."
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Mikrokontroler",
+                icon: "fas fa-microchip",
+                description: "Mengenal 'otak kecil' yang menggerakkan perangkat elektronik.",
+                content: `
+                    <h3>1. Apa Itu Mikrokontroler?</h3>
+                    <p>Mikrokontroler adalah chip elektronik yang di dalamnya sudah terdapat:</p>
+                    <ul>
+                        <li>CPU (otak pemroses)</li>
+                        <li>Flash Memory (penyimpan program)</li>
+                        <li>RAM (penyimpan data sementara)</li>
+                        <li>Pin I/O (penghubung ke sensor & alat)</li>
+                    </ul>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Bahasa Sehari-Hari:</h4>
+                        <p>Mikrokontroler adalah "otak kecil" yang bekerja secara otomatis sesuai program. Ia bisa membaca sensor, memproses logika, dan menggerakkan alat.</p>
+                    </div>
+                    
+                    <h3>2. Mengapa Mikrokontroler Penting?</h3>
+                    <p>Hampir semua alat modern memakai mikrokontroler:</p>
+                    <ul>
+                        <li><strong>Mesin cuci</strong> - Atur putaran, level air, waktu</li>
+                        <li><strong>AC</strong> - Baca suhu & atur kompresor</li>
+                        <li><strong>Dispenser</strong> - Matikan pemanas saat air panas</li>
+                        <li><strong>Smart home</strong> - Kontrol lampu, pintu, tirai otomatis</li>
+                    </ul>
+                    
+                    <h3>3. Contoh Mikrokontroler untuk Pemula</h3>
+                    <ul>
+                        <li><strong>Arduino Uno</strong> - Mudah dipelajari, banyak tutorial</li>
+                        <li><strong>ESP8266</strong> - Murah, punya WiFi</li>
+                        <li><strong>ESP32</strong> - Paling canggih, ada WiFi + Bluetooth</li>
+                    </ul>
+                    
+                    <h3>4. Perbedaan Mikrokontroler dan Mikroprosesor</h3>
+                    <div class="analogy-box">
+                        <p><strong>Mikrokontroler</strong> = otak kecil untuk 1 alat<br>
+                        <strong>Mikroprosesor</strong> = otak besar untuk komputer</p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "Apa itu mikrokontroler?",
+                        options: ["Chip elektronik dengan CPU, memori, dan I/O", "Alat untuk menyolder", "Software untuk programming", "Kabel penghubung"],
+                        correct: 0,
+                        explanation: "Mikrokontroler adalah chip lengkap yang berisi semua komponen dasar untuk sistem embedded."
+                    },
+                    {
+                        question: "Manakah kelebihan ESP32 dibanding Arduino Uno?",
+                        options: ["Memiliki WiFi dan Bluetooth", "Lebih murah", "Lebih besar ukurannya", "Tidak perlu programming"],
+                        correct: 0,
+                        explanation: "ESP32 memiliki WiFi dan Bluetooth built-in, sedangkan Arduino Uno tidak."
+                    },
+                    {
+                        question: "Apa fungsi pin I/O pada mikrokontroler?",
+                        options: ["Menghubungkan ke sensor dan aktuator", "Menyimpan program", "Memberi daya pada board", "Menampilkan gambar"],
+                        correct: 0,
+                        explanation: "Pin Input/Output digunakan untuk berkomunikasi dengan komponen eksternal."
+                    },
+                    {
+                        question: "Dimana program disimpan di mikrokontroler?",
+                        options: ["Flash Memory", "RAM", "Harddisk", "Cloud"],
+                        correct: 0,
+                        explanation: "Program disimpan di Flash Memory yang tetap tersimpan meski daya dimatikan."
+                    },
+                    {
+                        question: "Mikrokontroler mana yang paling cocok untuk proyek IoT?",
+                        options: ["ESP32", "Arduino Uno", "Raspberry Pi", "STM32"],
+                        correct: 0,
+                        explanation: "ESP32 cocok untuk IoT karena memiliki WiFi dan Bluetooth built-in."
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Aktuator dalam IoT",
+                icon: "fas fa-cogs",
+                description: "Mengenal 'tangan & kaki' yang menjalankan perintah dalam sistem IoT.",
+                content: `
+                    <h3>1. Apa Itu Aktuator?</h3>
+                    <p>Aktuator adalah komponen elektronik yang melakukan aksi fisik setelah menerima perintah dari mikrokontroler.</p>
+                    
+                    <div class="analogy-box">
+                        <h4>💡 Analogi:</h4>
+                        <p>Jika sensor adalah indera, dan mikrokontroler adalah otaknya, maka aktuator adalah tangan/kaki yang menjalankan perintah.</p>
+                    </div>
+                    
+                    <h3>2. Jenis-Jenis Aktuator</h3>
+                    
+                    <h4>a. Relay</h4>
+                    <p>Saklar otomatis yang dikendalikan sinyal digital dari mikrokontroler.</p>
+                    <p><strong>Fungsi:</strong> Menghidupkan/mematikan beban 220V atau 5V/12V</p>
+                    
+                    <h4>b. Motor DC</h4>
+                    <p>Motor yang berputar ketika diberi tegangan.</p>
+                    <p><strong>Dipakai pada:</strong> robot mini, alat pengaduk otomatis</p>
+                    
+                    <h4>c. Servo Motor</h4>
+                    <p>Motor yang dapat bergerak ke sudut tertentu (0°-180°).</p>
+                    <p><strong>Fungsi:</strong> Membuka pintu otomatis, menggerakkan tangan robot</p>
+                    
+                    <h4>d. Solenoid</h4>
+                    <p>Aktuator berbasis elektromagnet untuk kunci pintu otomatis dan katup air.</p>
+                    
+                    <h4>e. Buzzer</h4>
+                    <p>Aktuator yang menghasilkan suara untuk alarm atau notifikasi.</p>
+                `,
+                quiz: [
+                    {
+                        question: "Apa fungsi relay dalam sistem IoT?",
+                        options: ["Menghidupkan/mematikan perangkat listrik", "Mengukur suhu", "Menampilkan data", "Menyimpan program"],
+                        correct: 0,
+                        explanation: "Relay berfungsi sebagai saklar elektronik yang dapat mengontrol perangkat listrik besar."
+                    },
+                    {
+                        question: "Aktuator apa yang digunakan untuk kran air otomatis?",
+                        options: ["Solenoid Valve", "Motor DC", "Servo Motor", "Buzzer"],
+                        correct: 0,
+                        explanation: "Solenoid valve adalah aktuator yang tepat untuk mengontrol aliran air."
+                    },
+                    {
+                        question: "Apa perbedaan motor DC dan servo?",
+                        options: ["Servo dapat bergerak ke sudut tertentu", "Motor DC lebih murah", "Servo lebih cepat", "Motor DC lebih kecil"],
+                        correct: 0,
+                        explanation: "Servo motor dapat dikontrol untuk bergerak ke sudut tertentu, sedangkan DC motor hanya berputar."
+                    },
+                    {
+                        question: "Aktuator apa yang menghasilkan suara?",
+                        options: ["Buzzer", "Relay", "Solenoid", "Motor DC"],
+                        correct: 0,
+                        explanation: "Buzzer adalah aktuator yang mengubah sinyal listrik menjadi suara."
+                    },
+                    {
+                        question: "Mengapa relay penting dalam proyek IoT?",
+                        options: ["Dapat mengontrol perangkat 220V", "Dapat mengukur jarak", "Dapat menyimpan data", "Dapat menghubungkan WiFi"],
+                        correct: 0,
+                        explanation: "Relay memungkinkan mikrokontroler 3.3V/5V mengontrol perangkat listrik rumah 220V."
+                    }
+                ]
+            },
+            // Menambahkan modul 5-8 dari data additionalModules
+            ...additionalModules
+        ];
+
+        // [Kode JavaScript lainnya tetap sama seperti sebelumnya]
+        const practiceData = {
+            1: {
+                title: "Sistem Penyiraman Tanaman Otomatis",
+                components: [
+                    "ESP32 Dev Board",
+                    "Sensor Soil Moisture Analog",
+                    "RTC DS3231 (I2C)",
+                    "Relay 5V Active LOW",
+                    "Pompa air mini 5V",
+                    "Tombol tekan (manual override)",
+                    "Adaptor 5V atau powerbank"
+                ],
+                wiring: `
+                    <h3>Wiring Sistem:</h3>
+                    <ol>
+                        <li><strong>Sensor Tanah → ESP32</strong>
+                            <ul>
+                                <li>VCC → 3.3V</li>
+                                <li>GND → GND</li>
+                                <li>AO → GPIO ADC (GPIO 34)</li>
+                            </ul>
+                        </li>
+                        <li><strong>RTC DS3231 → ESP32</strong>
+                            <ul>
+                                <li>SDA → SDA (GPIO 21)</li>
+                                <li>SCL → SCL (GPIO 22)</li>
+                                <li>VCC → 3.3V</li>
+                                <li>GND → GND</li>
+                            </ul>
+                        </li>
+                        <li><strong>Relay 5V → ESP32</strong>
+                            <ul>
+                                <li>VCC → 5V</li>
+                                <li>GND → GND</li>
+                                <li>IN → GPIO 27</li>
+                            </ul>
+                        </li>
+                    </ol>
+                `,
+                code: `
+                    <h3>Kode Utama:</h3>
+                    <div class="code-block">
+                        <span class="code-comment">// Konfigurasi pin</span><br>
+                        #define BUTTON_PIN 14<br>
+                        #define RELAY_PIN 27<br>
+                        #define MOISTURE_PIN 34<br><br>
+                        
+                        <span class="code-comment">// Threshold penyiraman</span><br>
+                        const int AUTO_ON_THRESHOLD = 60;  <span class="code-comment">// jika >= 60% -> ON (kering)</span><br>
+                        const int AUTO_OFF_THRESHOLD = 30; <span class="code-comment">// jika <= 30% -> OFF (cukup basah)</span><br><br>
+                        
+                        <span class="code-comment">// Mode sistem</span><br>
+                        <span class="code-comment">// 0 = MANUAL, 1 = AUTO, 2 = TIMER</span><br>
+                        int modeSistem = 2;<br><br>
+                        
+                        <span class="code-comment">// Fungsi untuk membaca sensor tanah</span><br>
+                        void readSoilMoisture() {<br>
+                        &nbsp;&nbsp;int raw = analogRead(MOISTURE_PIN);<br>
+                        &nbsp;&nbsp;<span class="code-comment">// Konversi ke persentase</span><br>
+                        &nbsp;&nbsp;moisturePercent = map(raw, rawWet, rawDry, 0, 100);<br>
+                        &nbsp;&nbsp;moisturePercent = constrain(moisturePercent, 0, 100);<br>
+                        }<br><br>
+                        
+                        <span class="code-comment">// Kontrol pompa otomatis</span><br>
+                        if (modeSistem == 1) {<br>
+                        &nbsp;&nbsp;if (!pompaOn && moisturePercent >= AUTO_ON_THRESHOLD) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;setPompa(true);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;pompaOn = true;<br>
+                        &nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;if (pompaOn && moisturePercent <= AUTO_OFF_THRESHOLD) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;setPompa(false);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;pompaOn = false;<br>
+                        &nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                `,
+                features: [
+                    "Mode otomatis berdasarkan sensor tanah",
+                    "Mode timer dengan RTC DS3231",
+                    "Kontrol manual via tombol dan web dashboard",
+                    "Web dashboard lokal dengan ESP32",
+                    "Safety timer untuk mencegah pompa menyala terlalu lama",
+                    "Moving average untuk stabilisasi data sensor"
+                ],
+                wiringImage: "asset/wiring_penyiraman.jpg",
+                documentationImage: "asset/dokumentasi_penyiraman.jpg"
+            },
+            2: {
+                title: "Kran Wudhu Otomatis",
+                components: [
+                    "ESP32 Dev Board",
+                    "2x VL53L0X Sensor Jarak",
+                    "OLED Display 128x64 (I2C)",
+                    "Relay 5V",
+                    "Solenoid Valve 12V",
+                    "Tombol Factory Reset",
+                    "Power Supply 12V/5V",
+                    "LED Indikator"
+                ],
+                wiring: `
+                    <h3>Wiring Sistem:</h3>
+                    <ol>
+                        <li><strong>Sensor VL53L0X (Bawah) → ESP32</strong>
+                            <ul>
+                                <li>VCC → 3.3V</li>
+                                <li>GND → GND</li>
+                                <li>SDA → GPIO 21</li>
+                                <li>SCL → GPIO 22</li>
+                                <li>XSHUT → GPIO 32</li>
+                            </ul>
+                        </li>
+                        <li><strong>Sensor VL53L0X (Atas) → ESP32</strong>
+                            <ul>
+                                <li>VCC → 3.3V</li>
+                                <li>GND → GND</li>
+                                <li>SDA → GPIO 21</li>
+                                <li>SCL → GPIO 22</li>
+                                <li>XSHUT → GPIO 33</li>
+                            </ul>
+                        </li>
+                        <li><strong>OLED Display → ESP32</strong>
+                            <ul>
+                                <li>VCC → 3.3V</li>
+                                <li>GND → GND</li>
+                                <li>SDA → GPIO 21</li>
+                                <li>SCL → GPIO 22</li>
+                            </ul>
+                        </li>
+                        <li><strong>Relay → ESP32</strong>
+                            <ul>
+                                <li>IN → GPIO 25</li>
+                                <li>VCC → 5V</li>
+                                <li>GND → GND</li>
+                            </ul>
+                        </li>
+                    </ol>
+                `,
+                code: `
+                    <h3>Kode Utama - Deteksi Swipe:</h3>
+                    <div class="code-block">
+                        <span class="code-comment">// Deteksi swipe gesture</span><br>
+                        void detectSwipeGesture() {<br>
+                        &nbsp;&nbsp;if (sensors.distance1 < config.swipe_distance && !swipe.in_swipe_zone) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;swipe.in_swipe_zone = true;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;swipe.swipe_start_time = millis();<br>
+                        &nbsp;&nbsp;}<br><br>
+                        
+                        &nbsp;&nbsp;<span class="code-comment">// Deteksi akhir swipe</span><br>
+                        &nbsp;&nbsp;if (sensors.distance1 >= config.swipe_distance + 30 && swipe.in_swipe_zone) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;unsigned long swipe_duration = millis() - swipe.swipe_start_time;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if (swipe_duration >= 100 && swipe_duration <= 1000) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handleValidSwipe();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;swipe.in_swipe_zone = false;<br>
+                        &nbsp;&nbsp;}<br>
+                        }<br><br>
+                        
+                        <span class="code-comment">// Kontrol air otomatis</span><br>
+                        void handleAutoMode() {<br>
+                        &nbsp;&nbsp;if (sensors.sensor2_healthy) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if (sensors.distance2 >= config.hand_min_distance &&<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sensors.distance2 <= config.hand_max_distance) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (system_state.water_state != WATER_ON) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turnWaterOn();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;} else if (system_state.water_state == WATER_ON) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (system_state.water_state != WATER_TURNING_OFF) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_state.water_state = WATER_TURNING_OFF;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timing.hand_detection_time = millis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (millis() - timing.hand_detection_time >= config.water_off_delay) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turnWaterOff();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                `,
+                features: [
+                    "Deteksi tangan otomatis dengan sensor jarak",
+                    "Swipe gesture untuk kontrol manual (mode auto/manual)",
+                    "5x swipe cepat untuk masuk mode konfigurasi AP",
+                    "OLED display untuk status sistem",
+                    "Web dashboard untuk konfigurasi",
+                    "Mode degraded saat salah satu sensor error",
+                    "Safety timeout (max water time)",
+                    "Statistik penggunaan (total aktivasi, durasi, error count)",
+                    "Factory reset via tombol fisik",
+                    "Watchdog timer untuk recovery otomatis"
+                ],
+                wiringImage: "asset/wiring_kranwudhu.jpg",
+                documentationImage: "asset/dokumentasi_kranwudhu.jpg"
+            }
+        };
+
+        let currentQuiz = {
+            moduleId: null,
+            currentQuestion: 0,
+            score: 0,
+            answers: [],
+            quizStarted: false
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadModules();
+            setupNavigation();
+        });
+
+        function loadModules() {
+            const modulesList = document.getElementById('modulesList');
+            modulesList.innerHTML = '';
+            
+            modulesData.forEach(module => {
+                const moduleCard = document.createElement('div');
+                moduleCard.className = 'module-card';
+                moduleCard.onclick = () => openModule(module.id);
+                
+                const progress = Math.floor((module.id / modulesData.length) * 100);
+                
+                moduleCard.innerHTML = `
+                    <div class="module-icon">
+                        <i class="${module.icon}"></i>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-badge">Modul ${module.id}</div>
+                        <h3>${module.title}</h3>
+                        <p>${module.description}</p>
+                        <div class="module-progress">
+                            <div class="progress-bar" style="width: ${progress}%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>${module.quiz.length} pertanyaan</span>
+                            <span>${progress}% selesai</span>
+                        </div>
+                    </div>
+                `;
+                
+                modulesList.appendChild(moduleCard);
+            });
+        }
+
+        function openModule(moduleId) {
+            const module = modulesData.find(m => m.id === moduleId);
+            if (!module) return;
+            
+            // Reset quiz state
+            currentQuiz = {
+                moduleId: moduleId,
+                currentQuestion: 0,
+                score: 0,
+                answers: [],
+                quizStarted: false
+            };
+            
+            document.getElementById('modulesPage').classList.remove('active');
+            document.getElementById('moduleContentPage').classList.add('active');
+            
+            const contentPage = document.getElementById('moduleContentPage');
+            contentPage.innerHTML = `
+                <div class="module-header">
+                    <h2>${module.title}</h2>
+                    <p>${module.description}</p>
+                </div>
+                
+                <div class="module-content-container">
+                    ${module.content}
+                </div>
+                
+                ${module.quiz.length > 0 ? `
+                <div class="quiz-section" id="quizSection">
+                    <div class="quiz-header">
+                        <h3>Quiz Pemahaman</h3>
+                        <div class="score-display" id="scoreDisplay">0/${module.quiz.length}</div>
+                    </div>
+                    <div id="quizContent"></div>
+                    <div class="quiz-navigation" id="quizNavigation" style="display: none;">
+                        <button class="btn-secondary" onclick="previousQuestion()" id="prevBtn">
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <button class="btn-primary" onclick="nextQuestion()" id="nextBtn">
+                            Lanjut <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="module-nav">
+                    ${module.quiz.length > 0 ? `
+                    <button onclick="toggleQuiz(${module.id})">
+                        <i class="fas fa-question-circle"></i> Mulai Quiz
+                    </button>
+                    ` : ''}
+                    <button onclick="markAsComplete(${module.id})">
+                        <i class="fas fa-check-circle"></i> Tandai Selesai
+                    </button>
+                </div>
+                
+                <!-- Tombol Kembali ke Daftar Modul di bagian bawah -->
+                <button class="back-to-modules" onclick="goBackToModules()">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Daftar Modul
+                </button>
+            `;
+            
+            if (module.quiz.length > 0) {
+                loadQuestion(moduleId, 0);
+            }
+        }
+
+        // Fungsi tombol Mulai di Beranda
+        function startLearning() {
+            // Update navigasi
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelector('[data-page="modulesPage"]').classList.add('active');
+            
+            // Tampilkan halaman modul
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('modulesPage').classList.add('active');
+        }
+
+        function loadQuestion(moduleId, questionIndex) {
+            const module = modulesData.find(m => m.id === moduleId);
+            if (!module || !module.quiz[questionIndex]) return;
+            
+            const question = module.quiz[questionIndex];
+            const quizContent = document.getElementById('quizContent');
+            
+            let quizHTML = `
+                <div class="question-container">
+                    <div class="question-text">${questionIndex + 1}. ${question.question}</div>
+                    <div class="options-container" id="options_${questionIndex}">
+                        ${question.options.map((option, optIndex) => `
+                            <div class="option" onclick="selectOption(${questionIndex}, ${optIndex})" id="option_${questionIndex}_${optIndex}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback_${questionIndex}"></div>
+                </div>
+            `;
+            
+            quizContent.innerHTML = quizHTML;
+            
+            // Update score display
+            document.getElementById('scoreDisplay').textContent = `${currentQuiz.score}/${module.quiz.length}`;
+            
+            // Show navigation if not first question or quiz started
+            const quizNavigation = document.getElementById('quizNavigation');
+            if (currentQuiz.quizStarted || questionIndex > 0) {
+                quizNavigation.style.display = 'flex';
+            }
+            
+            // Update button text for last question
+            const nextBtn = document.getElementById('nextBtn');
+            if (questionIndex === module.quiz.length - 1) {
+                nextBtn.innerHTML = 'Selesai <i class="fas fa-check"></i>';
+            } else {
+                nextBtn.innerHTML = 'Lanjut <i class="fas fa-arrow-right"></i>';
+            }
+            
+            // Show/hide previous button
+            const prevBtn = document.getElementById('prevBtn');
+            prevBtn.style.display = questionIndex > 0 ? 'block' : 'none';
+            
+            // Restore selected answer if exists
+            if (currentQuiz.answers[questionIndex] !== undefined) {
+                const selectedOption = document.getElementById(`option_${questionIndex}_${currentQuiz.answers[questionIndex]}`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                    
+                    // Show feedback if already answered
+                    const feedback = document.getElementById(`feedback_${questionIndex}`);
+                    if (currentQuiz.answers[questionIndex] === question.correct) {
+                        feedback.textContent = `✓ Benar! ${question.explanation}`;
+                        feedback.className = 'feedback correct';
+                        feedback.style.display = 'block';
+                    } else {
+                        feedback.textContent = `✗ Salah. ${question.explanation}`;
+                        feedback.className = 'feedback incorrect';
+                        feedback.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function toggleQuiz(moduleId) {
+            const quizSection = document.getElementById('quizSection');
+            if (quizSection) {
+                quizSection.classList.toggle('active');
+                if (quizSection.classList.contains('active')) {
+                    currentQuiz.quizStarted = true;
+                    loadQuestion(moduleId, currentQuiz.currentQuestion);
+                }
+            }
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            if (currentQuiz.answers[questionIndex] !== undefined) {
+                return; // Already answered
+            }
+            
+            const module = modulesData.find(m => m.id === currentQuiz.moduleId);
+            const question = module.quiz[questionIndex];
+            
+            // Remove selected class from all options
+            const options = document.querySelectorAll(`#options_${questionIndex} .option`);
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Add selected class to chosen option
+            const selectedOption = document.getElementById(`option_${questionIndex}_${optionIndex}`);
+            selectedOption.classList.add('selected');
+            
+            // Check answer and show feedback
+            const feedback = document.getElementById(`feedback_${questionIndex}`);
+            
+            if (optionIndex === question.correct) {
+                selectedOption.classList.add('correct');
+                feedback.textContent = `✓ Benar! ${question.explanation}`;
+                feedback.className = 'feedback correct';
+                currentQuiz.score++;
+            } else {
+                selectedOption.classList.add('incorrect');
+                feedback.textContent = `✗ Salah. ${question.explanation}`;
+                feedback.className = 'feedback incorrect';
+                
+                // Also highlight correct answer
+                const correctOption = document.getElementById(`option_${questionIndex}_${question.correct}`);
+                if (correctOption) {
+                    correctOption.classList.add('correct');
+                }
+            }
+            
+            feedback.style.display = 'block';
+            
+            // Save answer
+            currentQuiz.answers[questionIndex] = optionIndex;
+            
+            // Update score display
+            document.getElementById('scoreDisplay').textContent = `${currentQuiz.score}/${module.quiz.length}`;
+            
+            // Show navigation
+            document.getElementById('quizNavigation').style.display = 'flex';
+        }
+
+        function nextQuestion() {
+            const module = modulesData.find(m => m.id === currentQuiz.moduleId);
+            
+            if (currentQuiz.currentQuestion < module.quiz.length - 1) {
+                currentQuiz.currentQuestion++;
+                loadQuestion(currentQuiz.moduleId, currentQuiz.currentQuestion);
+            } else {
+                // End of quiz
+                alert(`Quiz selesai! Skor akhir: ${currentQuiz.score}/${module.quiz.length}`);
+                document.getElementById('quizSection').classList.remove('active');
+                currentQuiz.quizStarted = false;
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuiz.currentQuestion > 0) {
+                currentQuiz.currentQuestion--;
+                loadQuestion(currentQuiz.moduleId, currentQuiz.currentQuestion);
+            }
+        }
+
+        function markAsComplete(moduleId) {
+            alert(`Modul ${moduleId} telah ditandai sebagai selesai!`);
+        }
+
+        function openPractice(practiceId) {
+            const practice = practiceData[practiceId];
+            if (!practice) return;
+            
+            document.getElementById('practicePage').classList.remove('active');
+            document.getElementById('moduleContentPage').classList.add('active');
+            
+            const contentPage = document.getElementById('moduleContentPage');
+            contentPage.innerHTML = `
+                <div class="module-header">
+                    <h2>${practice.title}</h2>
+                </div>
+                
+                <div class="module-content-container">
+                    <h3>Komponen yang Dibutuhkan:</h3>
+                    <ul>
+                        ${practice.components.map(component => `<li>${component}</li>`).join('')}
+                    </ul>
+                    
+                    ${practice.wiring || ''}
+                    
+                    <div style="margin: 1.5rem 0;">
+                        <button class="btn-primary" onclick="showWiringImage(${practiceId})">
+                            <i class="fas fa-project-diagram"></i> Lihat Gambar Skema/Wiring
+                        </button>
+                        <button class="btn-secondary" onclick="showDocumentationImage(${practiceId})">
+                            <i class="fas fa-images"></i> Lihat Dokumentasi
+                        </button>
+                    </div>
+                    
+                    <img src="${practice.wiringImage}" alt="Wiring Diagram" class="wiring-image" id="wiringImage">
+                    <img src="${practice.documentationImage}" alt="Dokumentasi" class="wiring-image" id="documentationImage">
+                    
+                    ${practice.code || ''}
+                    
+                    <h3>Fitur Sistem:</h3>
+                    <ul>
+                        ${practice.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    
+                    <div class="analogy-box">
+                        <h4>📋 Langkah-Langkah Praktik:</h4>
+                        <ol>
+                            <li>Siapkan semua komponen dan alat yang dibutuhkan</li>
+                            <li>Pasang wiring sesuai diagram di atas</li>
+                            <li>Upload kode program ke ESP32</li>
+                            <li>Testing fungsi dasar sistem</li>
+                            <li>Kalibrasi sensor jika diperlukan</li>
+                            <li>Testing mode operasi yang berbeda</li>
+                            <li>Uji web dashboard dan kontrol manual</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1rem; background: #E3F2FD; border-radius: 8px;">
+                        <h4>⚠️ Tips Keamanan:</h4>
+                        <ul>
+                            <li>Matikan semua catu daya sebelum menyambung kabel</li>
+                            <li>Pastikan polaritas komponen sudah benar</li>
+                            <li>Gunakan power supply yang sesuai dengan kebutuhan arus</li>
+                            <li>Jauhkan komponen elektronik dari air dan kelembapan</li>
+                            <li>Jika menggunakan tegangan 220V, berhati-hatilah!</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-nav">
+                    <button onclick="downloadCode(${practiceId})">
+                        <i class="fas fa-download"></i> Download Kode Lengkap
+                    </button>
+                    <button onclick="simulatePractice(${practiceId})">
+                        <i class="fas fa-play"></i> Simulasi Praktik
+                    </button>
+                </div>
+                
+                <!-- Tombol Kembali ke Praktik di bagian bawah -->
+                <button class="back-to-modules" onclick="goBackToPractice()" style="background-color: var(--accent-color);">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Halaman Praktik
+                </button>
+            `;
+        }
+
+        function showWiringImage(practiceId) {
+            const practice = practiceData[practiceId];
+            document.getElementById('wiringImage').classList.add('active');
+            document.getElementById('documentationImage').classList.remove('active');
+        }
+
+        function showDocumentationImage(practiceId) {
+            const practice = practiceData[practiceId];
+            document.getElementById('documentationImage').classList.add('active');
+            document.getElementById('wiringImage').classList.remove('active');
+        }
+
+        function downloadCode(practiceId) {
+            let codeContent = '';
+            
+            if (practiceId === 1) {
+                codeContent = `// Kode lengkap Sistem Penyiraman Tanaman Otomatis\n\n`;
+                codeContent += `#include <Wire.h>\n`;
+                codeContent += `#include <RTClib.h>\n`;
+                codeContent += `#include <WiFi.h>\n`;
+                codeContent += `#include <WebServer.h>\n\n`;
+                codeContent += `// ... (kode lengkap seperti di modul)`;
+            } else if (practiceId === 2) {
+                codeContent = `// Kode lengkap Kran Wudhu Otomatis\n\n`;
+                codeContent += `#include <Wire.h>\n`;
+                codeContent += `#include <VL53L0X.h>\n`;
+                codeContent += `#include <Adafruit_GFX.h>\n`;
+                codeContent += `#include <Adafruit_SSD1306.h>\n`;
+                codeContent += `#include <WiFi.h>\n`;
+                codeContent += `#include <WebServer.h>\n`;
+                codeContent += `#include <EEPROM.h>\n\n`;
+                codeContent += `// ... (kode lengkap seperti di file praktik)`;
+            }
+            
+            const blob = new Blob([codeContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `praktek_${practiceId}_iot_irmal.ino`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`Kode untuk ${practiceData[practiceId].title} telah diunduh!`);
+        }
+
+        function simulatePractice(practiceId) {
+            alert(`Simulasi praktek ${practiceData[practiceId].title} akan segera tersedia!`);
+        }
+
+        function openWhatsApp(phoneNumber, name) {
+            const message = `Assalamualaikum ${name}, Saya peserta IoT IRMAL, mau bertanya:`;
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function goBackToModules() {
+            // Reset quiz state when leaving module
+            currentQuiz = {
+                moduleId: null,
+                currentQuestion: 0,
+                score: 0,
+                answers: [],
+                quizStarted: false
+            };
+            
+            document.getElementById('moduleContentPage').classList.remove('active');
+            document.getElementById('modulesPage').classList.add('active');
+            document.getElementById('moduleContentPage').innerHTML = '';
+        }
+
+        function goBackToPractice() {
+            document.getElementById('moduleContentPage').classList.remove('active');
+            document.getElementById('practicePage').classList.add('active');
+            document.getElementById('moduleContentPage').innerHTML = '';
+        }
+
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const pageId = this.getAttribute('data-page');
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected page
+                    document.querySelectorAll('.page-content').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    document.getElementById(pageId).classList.add('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
