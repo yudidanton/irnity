@@ -11,7 +11,7 @@ Website pembelajaran Internet of Things (IoT) untuk Remaja Masjid Jami Al-Ikhlas
 
 ## ✨ Features
 - 📱 **Mobile-first Design** - Optimized for Android phones
-- 📚 **8 IoT Modules** - From basics to advanced
+- 📚 **10 IoT Modules** - From basics to exhibition
 - ❓ **Interactive Quizzes** - Per module with scoring
 - 📊 **Progress Tracking** - localStorage based
 - 💾 **Resources Download** - Simulated Google Drive integration
